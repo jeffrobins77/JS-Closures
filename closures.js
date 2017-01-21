@@ -15,11 +15,11 @@ closure over the name variable. Invoke outer saving the return value into
 another variable called 'inner'. */
 
 // Code Here
-
+var inner = outer();
 //Once you do that, invoke inner.
 
 //Code Here
-
+// console.log(inner());
 
 
 
@@ -48,11 +48,8 @@ Create a makeCall function that when invoked logs 'Calling Jake at 435-215-9248'
 in your console. */
 
   //Code Here
-
-
-
-
-
+var makeCall = callFriend();
+// console.log(makeCall('435-215-9248'));
 
 
 
@@ -67,13 +64,19 @@ in your console. */
 properly. */
 
 //Code Here
-
+function makeCounter(){
+  var counter = 0;
+  return function() {
+    counter++;
+    return counter;
+  };
+};
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
@@ -96,12 +99,19 @@ function is responsible for decrementing the value by one. You will need to use
 the module pattern to achieve this. */
 
 function counterFactory(value) {
-
+  var result = value;
   // Code here.
-
-
-  return {
+var obj = {
+  inc: function() {
+    result++;
+    return result;
+    },
+  dec: function() {
+    result--;
+    return result;
+    }
   }
+return obj;
 }
 
 
@@ -129,15 +139,17 @@ function motivation(firstname, lastname){
   var welcomeText = 'You\'re doing awesome, keep it up ';
 
   // code message function here.
-
-
+ var message = function(){
+    var i = welcomeText + firstname + ' ' + lastname +'.';
+    return i;
+  }
+// console.log(message());
   //Uncommment this to return the value of your invoked message function
-  //return message();
+  return message();
 
 }
 
 motivation('Billy', 'Bob'); // 'Your doing awesome keep it up Billy Bob
-
 
 
 
@@ -171,13 +183,15 @@ var module = (function() {
 	// outside our lexical scope
 
   return {
-    // Code here.
-  };
+    publicMethod: function(){
+      return privateMethod();
+    }
+  }
 
 })();
 
 // Uncomment this after you create your public method
-//   module.publicMethod();
+  module.publicMethod();
 
 
 
@@ -200,13 +214,13 @@ then 3, etc). Run this code in your console to see what the output is. */
 // To make this code work you will need to create a new scope for every iteration.
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000)
+    setTimeout(newScope(i), i * 1000)
   }
 
   function newScope(i) {
-    console.log(i)
+    return function(){
+      console.log(i)
+    }
   }
 }
 timeOutCounter();
@@ -220,7 +234,20 @@ timeOutCounter();
 	#PROBLEM-08
 \******************************************************************************/
 
-var funcArray = [];
+
+function myArrFunc(num){
+  var myArr = [
+    function() {return 0},
+    function() {return 1},
+    function() {return 2},
+    function() {return 3},
+    function() {return 4},
+    function() {return 5}
+  ];
+  return myArr;
+}
+
+var funcArray = myArrFunc();
 
 /*
   Make the following code work
